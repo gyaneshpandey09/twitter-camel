@@ -1,6 +1,8 @@
 package com.backBenchers.twitter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,41 +12,22 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.backBenchers.twitter.service.TwitterAPIService;
 
+
 @RunWith(MockitoJUnitRunner.class)
 public class TwitterAPIBeanTest {
+	
+	@Mock
+	TwitterAPIService twitterAPIServiceMock;
+	
+	@InjectMocks
+	TwitterAPIBean twitterAPIBean;
 	
 	@Test
 	public void test() {
 		
-		String tweet=new TwitterAPIBean(new TwitterAPIService() {
-
-			@Override
-			public String getTweet(String param) {
-				// TODO Auto-generated method stub
-				return "test backbenchers";
-			}
-
-			@Override
-			public String getGeoCode(String param) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String postTweet(String param) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public String getTrends(String param) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-		}).getTweet("test");
+		when(twitterAPIServiceMock.getTweet(anyString())).thenReturn("test backbenchers");
 		
-		assertEquals("test backbenchers",tweet);
+		assertEquals("test backbenchers",twitterAPIBean.getTweet("test"));
 	}
 
 }
