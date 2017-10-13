@@ -3,22 +3,22 @@ package com.backBenchers.twitter;
 import com.backBenchers.twitter.service.TwitterAPIService;
 
 
-public class TwitterAPIBean extends TwitterAPIConfig {
+public class TwitterAPIGetTrendsBean extends TwitterAPIConfig {
 	
 	//private static final Logger LOG = LoggerFactory.getLogger(TwitterAPIBean.class);
 	private TwitterAPIService twitterAPIService;
 	
-	public TwitterAPIBean() {
+	public TwitterAPIGetTrendsBean() {
 		
 	}
 	
-	public TwitterAPIBean(TwitterAPIService twitterAPIService) {
+	public TwitterAPIGetTrendsBean(TwitterAPIService twitterAPIService) {
 		this.twitterAPIService=twitterAPIService;
 	}
 	 
-	public String getTweet(String param) {
-		System.out.println("getTweet:"+param);
-		return twitterAPIService.getTweet(param);
+	public String getTrends(String param) {
+		System.out.println("getTrends:"+param);
+		return twitterAPIService.getTrends(param);
 	}
 	
 //		public static void main(String args[]) {

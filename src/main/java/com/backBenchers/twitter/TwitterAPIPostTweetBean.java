@@ -20,6 +20,10 @@ public class TwitterAPIPostTweetBean extends TwitterAPIConfig {
 	
 	private TwitterAPIService twitterAPIService;
 	
+	public TwitterAPIPostTweetBean() {
+		
+	}
+	
 	public TwitterAPIPostTweetBean(TwitterAPIService twitterAPIService) {
 		this.twitterAPIService=twitterAPIService;
 	}

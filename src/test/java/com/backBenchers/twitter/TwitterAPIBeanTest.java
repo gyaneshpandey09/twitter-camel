@@ -35,6 +35,12 @@ public class TwitterAPIBeanTest {
 				// TODO Auto-generated method stub
 				return null;
 			}
+
+			@Override
+			public String getTrends(String param) {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			
 		}).getTweet("test");
 		

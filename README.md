@@ -32,7 +32,7 @@ First you need to install the following features in Karaf/ServiceMix with:
 
 Then you can install the Camel example:
 
-	install -s mvn:org.apache.camel/twitter-blueprint/2.19.3
+	install -s mvn:org.apache.camel/twitter-camel/2.19.3
 
 Then open a browser to see live twitter updates in the web page
 

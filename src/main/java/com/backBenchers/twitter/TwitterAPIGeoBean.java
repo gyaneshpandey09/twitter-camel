@@ -10,6 +10,10 @@ public class TwitterAPIGeoBean extends TwitterAPIConfig {
 	
 	private TwitterAPIService twitterAPIService;
 	
+	public TwitterAPIGeoBean() {
+		
+	}
+	
 	public TwitterAPIGeoBean(TwitterAPIService twitterAPIService) {
 		this.twitterAPIService=twitterAPIService;
 	}
