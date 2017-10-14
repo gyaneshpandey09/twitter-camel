@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import com.backBenchers.twitter.TwitterAPIConfig;
 
+import twitter4j.DirectMessage;
 import twitter4j.GeoLocation;
 import twitter4j.GeoQuery;
-import twitter4j.Location;
 import twitter4j.Place;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -21,7 +21,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-public class TwitterAPIServiceImpl extends TwitterAPIConfig implements TwitterAPIService{
+public class TwitterAPIServiceImpl extends TwitterAPIConfig implements TwitterAPIService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TwitterAPIServiceImpl.class);
 
@@ -133,38 +133,82 @@ public class TwitterAPIServiceImpl extends TwitterAPIConfig implements TwitterAP
 		AccessToken at = new AccessToken(accessToken, accessTokenSecret);
 		twitter.setOAuthConsumer(consumerKey, consumerSecret);
 		twitter.setOAuthAccessToken(at);
-		
-		ResponseList<Location> locations = null;
-        try {
-			locations = twitter.getAvailableTrends();
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-//        for(Location location:locations) {
-//			sb.append(location.getWoeid() + ":" + location.getCountryName() + ":" + location.getCountryCode() + "\n");
-//        }
-        
-        Trends trends = null;
+
+		/*
+		 * ResponseList<Location> locations = null; try { locations =
+		 * twitter.getAvailableTrends(); } catch (TwitterException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 * 
+		 * for(Location location:locations) { sb.append(location.getWoeid() + ":" +
+		 * location.getCountryName() + ":" + location.getCountryCode() + "\n"); }
+		 */
+
+		Trends trends = null;
 		try {
 			trends = twitter.getPlaceTrends(2383489);
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-        for (int i = 0; i < trends.getTrends().length; i++) {
-        		sb.append(trends.getTrends()[i].getName());
-        }       
-        
-        LOG.info(sb.toString());
-        if (sb.toString().isEmpty()) {
-        		return "no tweets found";
-        }else {
-        		return sb.toString();
-        }
-	
+
+		for (int i = 0; i < trends.getTrends().length; i++) {
+			sb.append(trends.getTrends()[i].getName());
+		}
+
+		LOG.info(sb.toString());
+		if (sb.toString().isEmpty()) {
+			return "no tweets found";
+		} else {
+			return sb.toString();
+		}
+
+	}
+
+	@Override
+	public String directMessage(String param) {
+		// TODO Auto-generated method stub
+		String[] values = param.split("-");
+		String recipientId = values[0];
+		String message = values[1];
+		StringBuffer sb = new StringBuffer();
+		Twitter twitter = new TwitterFactory().getInstance();
+		AccessToken at = new AccessToken(accessToken, accessTokenSecret);
+		twitter.setOAuthConsumer(consumerKey, consumerSecret);
+		twitter.setOAuthAccessToken(at);
+		DirectMessage status = null;
+		try {
+			status = twitter.sendDirectMessage(recipientId, message);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return values[0] + " sent to" + values[1] + " with status " + status;
+	}
+
+	@Override
+	public String getTimeline(String param) {
+		StringBuffer sb = new StringBuffer();
+		Twitter twitter = new TwitterFactory().getInstance();
+		AccessToken at = new AccessToken(accessToken, accessTokenSecret);
+		twitter.setOAuthConsumer(consumerKey, consumerSecret);
+		twitter.setOAuthAccessToken(at);
+		List<Status> statuses = null;
+		try {
+			statuses = twitter.getHomeTimeline();
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Showing home timeline.");
+		for (Status status : statuses) {
+			sb.append(status.getUser().getName() + ":" + status.getText());
+		}
+
+		if (sb.toString().isEmpty()) {
+			return "no tweets found";
+		} else {
+			return sb.toString();
+		}
 	}
 
 }

@@ -23,6 +23,14 @@ myApp.config(function ($routeProvider) {
         .when("/trends", {
             templateUrl: "trends.html",
             controller: "trendsController"
+        })
+        .when("/directMessage", {
+            templateUrl: "directMessage.html",
+            controller: "directMessageController"
+        })
+        .when("/timeline", {
+            templateUrl: "timeline.html",
+            controller: "timelineController"
         });
 });
 
@@ -41,4 +49,13 @@ myApp.controller('postController', function ($scope) {
 myApp.controller('trendsController', function ($scope) {
 	getTrends();
     console.log('trendsController starting');
+});
+
+myApp.controller('directMessageController', function ($scope) {
+    console.log('directMessageController starting');
+});
+
+myApp.controller('timelineController', function ($scope) {
+	getTimeline();
+    console.log('timelineController starting');
 });

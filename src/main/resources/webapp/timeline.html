@@ -24,22 +24,22 @@
       alert("WebSocket not supported by this browser");
     }
     
-    function getTrends()  {
-    	console.log("get trends");
-    	var ws = new WebSocket("ws://localhost:9090/get-trends");
+    function getTimeline()  {
+    	console.log("get timeline");
+    	var ws = new WebSocket("ws://localhost:9090/timeline");
 			
         ws.onopen = function()
         {
            // Web Socket is connected, send data using send()
            ws.send("test");
-           console.log("search phrase sent");
+           //console.log("search phrase sent");
         };
         
         ws.onmessage = function (evt) 
         { 
            var received_msg = evt.data;
            document.getElementById("result").value=received_msg;
-           console.log("Message is received..."+received_msg);
+           //console.log("Message is received..."+received_msg);
         };
 	
 
@@ -66,7 +66,7 @@
 </head>
 
 <body>
-<div class="sub-heading">Daily Trends</div>
+<div class="sub-heading">Timeline Tweets</div>
 <form>
 <!-- 	<input type="text" id="phrase"/>
 	<button type="button" onclick="search()">Search!</button>

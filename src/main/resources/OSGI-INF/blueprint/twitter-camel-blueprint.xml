@@ -24,6 +24,13 @@
 	<bean id="TwitterAPIGetTrendsBean" class="com.backBenchers.twitter.TwitterAPIGetTrendsBean">
 		<argument ref="TwitterAPIServiceImpl" />
 	</bean>		
+	<bean id="TwitterAPIDirectMessageBean" class="com.backBenchers.twitter.TwitterAPIDirectMessageBean">
+		<argument ref="TwitterAPIServiceImpl" />
+	</bean>
+	<bean id="TwitterAPITimeLineBean" class="com.backBenchers.twitter.TwitterAPITimeLineBean">
+		<argument ref="TwitterAPIServiceImpl" />
+	</bean>	
+				
 	<bean id="twitterAPIPostTweetBean" class="com.backBenchers.twitter.TwitterAPIPostTweetBean">
 		<argument ref="TwitterAPIServiceImpl" />
 	</bean>
@@ -97,6 +104,30 @@
 			<to uri="websocket://localhost:9090/get-trends?sendToAll=true&amp;staticResources=classpath:webapp" />
 		</route>		
 
+		<route id="direct-message-from">
+			<from uri="websocket://localhost:9090/direct-message" />
+			<to uri="log:param" />
+			<to uri="bean:TwitterAPIDirectMessageBean" />
+			<to uri="direct:direct-message-to" />
+		</route>
+		<route id="direct-message-to">
+			<from uri="direct:direct-message-to" />
+			<to uri="log:tweet" />
+			<to uri="websocket://localhost:9090/direct-message?sendToAll=true&amp;staticResources=classpath:webapp" />
+		</route>	
+		
+		<route id="get-timeline-from">
+			<from uri="websocket://localhost:9090/timeline" />
+			<to uri="log:param" />
+			<to uri="bean:TwitterAPITimeLineBean" />
+			<to uri="direct:get-timeline-to" />
+		</route>
+		<route id="get-timeline-to">
+			<from uri="direct:get-timeline-to" />
+			<to uri="log:tweet" />
+			<to uri="websocket://localhost:9090/timeline?sendToAll=true&amp;staticResources=classpath:webapp" />
+		</route>			
+		
 	</camelContext>
 
 </blueprint>

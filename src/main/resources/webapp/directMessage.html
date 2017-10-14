@@ -25,23 +25,27 @@
       alert("WebSocket not supported by this browser");
     }
     
-    function search() {
-    	var phrase = document.getElementById("phrase").value;
+    function directMessage() {
+    	var userName = document.getElementById("userName").value;
+    	var message = document.getElementById("message").value;
     	
-    	var ws = new WebSocket("ws://localhost:9090/search-tweet");
+    	var ws = new WebSocket("ws://localhost:9090/direct-message");
 			
         ws.onopen = function()
         {
            // Web Socket is connected, send data using send()
-           ws.send(phrase);
+           ws.send(userName+"-"+message);
            console.log("search phrase sent");
         };
         
         ws.onmessage = function (evt) 
         { 
            var received_msg = evt.data;
-           document.getElementById("result").value=received_msg;
-           console.log("Message is received..."+received_msg);
+           if(received_msg.includes("created_at")){
+        	   	document.getElementById("result").innerHTML="Message Sent Successfully";
+           }
+           
+           //console.log("Message is received..."+received_msg);
         };
 	
 
@@ -68,16 +72,15 @@
 </head>
 
 <body>
-<div class="sub-heading">Search Tweets</div>
+<div class="sub-heading">Send a message</div>
 <p/>
 <form>
-	<input type="text" id="phrase"/>
-	<button type="button" onclick="search()">Search!</button>
+	User Name: <input type="text" id="userName"/>
+	Message: <input type="text" id="message"/>
+	<button type="button" onclick="directMessage()">Send Message</button><br/>
 	<br/>
-	<h4>Search Result</h4>
-	<textarea rows="10" cols="50" id="result" readonly>
-		
-	</textarea>
+	<div id="result"></div>
+
 	
 </form>
 <!-- <a href="index.html">Back to main menu</a> -->
